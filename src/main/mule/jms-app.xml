@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd">
+	<jms:config name="JMS_Config" doc:name="JMS Config" doc:id="5828f7a8-624b-49ce-8746-c9c2ff5e73f3" >
+		<jms:active-mq-connection specification="JMS_1_0_2b" username="admin" password="admin" >
+			<jms:caching-strategy >
+				<jms:no-caching />
+			</jms:caching-strategy>
+			<jms:factory-configuration brokerUrl="tcp://localhost:61616" />
+		</jms:active-mq-connection>
+	</jms:config>
+	<flow name="jms-appFlow" doc:id="6179bc05-2928-4db1-8288-70a5bb87ff25" >
+		<jms:listener doc:id="84628679-dc2b-4977-bc03-8abd94bec09f" config-ref="JMS_Config" destination="T.FSD.EMP" ackMode="MANUAL" numberOfConsumers="1">
+			<jms:consumer-type >
+				<jms:topic-consumer shared="true"/>
+			</jms:consumer-type>
+		</jms:listener>
+		<logger level="INFO" doc:name="Logger" doc:id="7744cdf3-631e-4d03-a6d5-839f5dc85e3f" message="#[payload]"/>
+	</flow>
+</mule>
